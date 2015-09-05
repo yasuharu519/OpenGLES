@@ -1,0 +1,36 @@
+# - Try to find GLFW
+# GLFW_FOUND
+# GLFW_INCLUDE_DIR
+# GLFW_LIBRARIES
+
+find_path(GLFW_ROOT_DIR
+  NAMES include/GLFW/glfw3.h
+  PATH_SUFFIXES 3.1.1)
+message(STATUS "Found GLFW_ROOT_DIR ${GLFW_ROOT_DIR}")
+
+find_path(GLFW_INCLUDE_DIR
+  NAMES GLFW/glfw3.h
+  HINTS ${GLFW_ROOT_DIR}
+  PATH_SUFFIXES include
+  NO_DEFAULT_PATH
+  )
+message(STATUS "Found GLFW_INCLUDE_DIR ${GLFW_INCLUDE_DIR}")
+
+if(APPLE)
+  find_library(GLFW_LIBRARY
+    NAMES libglfw3.dylib
+    HINTS ${GLFW_ROOT_DIR}
+    PATH_SUFFIXES lib)
+else()
+  find_library(GLFW_LIBRARY
+    NAMES libglfw3.a
+    HINTS ${GLFW_ROOT_DIR}
+    PATH_SUFFIXES lib)
+endif()
+message(STATUS "Found GLFW_LIBRARY ${GLFW_LIBRARY}")
+
+if(GLFW_ROOT_DIR AND GLFW_INCLUDE_DIR AND GLFW_LIBRARY)
+  set(GLFW_FOUND TRUE)
+else()
+  set(GLFW_FOUND FALSE)
+endif()
