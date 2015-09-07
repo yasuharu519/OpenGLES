@@ -12,13 +12,16 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action,
     glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
+void initialize();
+
 void render_func();
+
+void destroy();
 
 int main(void) {
   GLFWwindow *window;
   glfwSetErrorCallback(error_callback);
-  if (!glfwInit())
-  {
+  if (!glfwInit()) {
     exit(EXIT_FAILURE);
   }
   window = glfwCreateWindow(480, 480, "Title", NULL, NULL);
@@ -29,6 +32,9 @@ int main(void) {
   glfwMakeContextCurrent(window);
   glfwSwapInterval(1);
   glfwSetKeyCallback(window, key_callback);
+
+  initialize();
+
   while (!glfwWindowShouldClose(window)) {
 
     // ここに実装を入れる
@@ -38,6 +44,10 @@ int main(void) {
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
+
+  // 後処理
+  destroy();
+
   glfwDestroyWindow(window);
   glfwTerminate();
   exit(EXIT_SUCCESS);
